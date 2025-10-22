@@ -1,0 +1,60 @@
+====================================
+BACKGROUND IMAGES - NAMING GUIDE
+====================================
+
+Save your 5 uploaded images to THIS folder with these EXACT names:
+
+📁 Folder: public/auth-backgrounds/
+
+-----------------------------------
+
+IMAGE 1 (Blue Orbiting Credit Card):
+├─ Filename: bg1.jpg
+├─ Label: "Platinum Card"
+└─ Description: Blue credit card with neon orbital rings
+
+IMAGE 2 (POS Terminal with Card):
+├─ Filename: bg2.jpg
+├─ Label: "POS Terminal"
+└─ Description: White payment terminal with contactless card
+
+IMAGE 3 (Glowing Pink-Blue Card):
+├─ Filename: bg3.jpg
+├─ Label: "Glow Card"
+└─ Description: Pink-blue gradient glowing credit card
+
+IMAGE 4 (Phone with Cards on Pink):
+├─ Filename: bg4.jpg
+├─ Label: "Mobile Pay"
+└─ Description: Red phone with receipt and colorful cards
+
+IMAGE 5 (Purple Hand with Card):
+├─ Filename: bg5.jpg
+├─ Label: "Purple Card"
+└─ Description: Hand holding credit card in purple light
+
+-----------------------------------
+
+IMPORTANT NOTES:
+- All files must be .jpg format
+- Names are case-sensitive (use lowercase)
+- No spaces in filenames
+- Place directly in public/auth-backgrounds/ folder
+- Image size recommendation: 1920x1080 or larger
+- Keep file sizes under 500KB for performance
+
+-----------------------------------
+
+VERIFICATION:
+After saving, you should have:
+✓ public/auth-backgrounds/bg1.jpg
+✓ public/auth-backgrounds/bg2.jpg
+✓ public/auth-backgrounds/bg3.jpg
+✓ public/auth-backgrounds/bg4.jpg
+✓ public/auth-backgrounds/bg5.jpg
+
+Then visit: http://localhost/login
+Click the purple palette button (bottom-right)
+Select any background!
+
+====================================

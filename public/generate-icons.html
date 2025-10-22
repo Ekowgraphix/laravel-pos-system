@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate POS App Icons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #f5f5f5;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .preview-item {
+            text-align: center;
+        }
+        .preview-item canvas {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+        .preview-item p {
+            margin: 10px 0 0 0;
+            font-size: 12px;
+            color: #666;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .instructions {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+            border-left: 4px solid #667eea;
+        }
+        .instructions h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 POS App Icon Generator</h1>
+        <p class="subtitle">Generate icons for your Progressive Web App</p>
+        
+        <button onclick="generateIcons()">✨ Generate All Icons</button>
+        <button onclick="downloadAllIcons()">📥 Download All Icons</button>
+        
+        <div id="status" class="status"></div>
+        
+        <div class="preview" id="preview"></div>
+        
+        <div class="instructions">
+            <h3>📋 Instructions:</h3>
+            <ol>
+                <li><strong>Generate Icons:</strong> Click the "Generate All Icons" button above</li>
+                <li><strong>Download:</strong> Click "Download All Icons" to save them</li>
+                <li><strong>Extract:</strong> Extract the downloaded files to <code>public/images/icons/</code></li>
+                <li><strong>Refresh:</strong> Reload your POS application</li>
+                <li><strong>Install:</strong> Look for the install icon in your browser's address bar</li>
+            </ol>
+            <p><strong>Note:</strong> Icons are automatically generated with a gradient background and "POS" text.</p>
+        </div>
+    </div>
+
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        const canvases = {};
+        
+        function generateIcons() {
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '';
+            
+            sizes.forEach(size => {
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+                
+                // Create gradient background
+                const gradient = ctx.createLinearGradient(0, 0, size, size);
+                gradient.addColorStop(0, '#667eea');
+                gradient.addColorStop(1, '#764ba2');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, size, size);
+                
+                // Add white circle
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.beginPath();
+                ctx.arc(size / 2, size / 2, size * 0.35, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Add "POS" text
+                ctx.fillStyle = 'white';
+                ctx.font = `bold ${size * 0.25}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('POS', size / 2, size / 2);
+                
+                // Add to preview
+                const previewItem = document.createElement('div');
+                previewItem.className = 'preview-item';
+                
+                const displayCanvas = canvas.cloneNode(true);
+                const displaySize = Math.min(size, 192);
+                displayCanvas.style.width = displaySize + 'px';
+                displayCanvas.style.height = displaySize + 'px';
+                
+                const label = document.createElement('p');
+                label.textContent = `${size}x${size}`;
+                
+                previewItem.appendChild(displayCanvas);
+                previewItem.appendChild(label);
+                preview.appendChild(previewItem);
+                
+                // Store canvas for download
+                canvases[size] = canvas;
+            });
+            
+            showStatus('✅ Icons generated successfully! Click "Download All Icons" to save them.', 'success');
+        }
+        
+        function downloadAllIcons() {
+            if (Object.keys(canvases).length === 0) {
+                showStatus('❌ Please generate icons first!', 'error');
+                return;
+            }
+            
+            sizes.forEach(size => {
+                const canvas = canvases[size];
+                canvas.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `icon-${size}x${size}.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                });
+            });
+            
+            showStatus('📥 Downloading all icons... Check your Downloads folder!', 'success');
+        }
+        
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+            status.style.display = 'block';
+            
+            setTimeout(() => {
+                status.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Auto-generate on page load
+        window.onload = () => {
+            generateIcons();
+        };
+    </script>
+</body>
+</html>
