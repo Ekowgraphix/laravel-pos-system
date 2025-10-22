@@ -7,7 +7,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dashboard</title>
+    <title>{{ config('app.name', 'Winniema\'s Enterprise') }} - Dashboard</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/icons/icon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/icons/icon-72x72.png') }}">
+    <link rel="shortcut icon" href="{{ asset('images/icons/icon-96x96.png') }}">
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -38,7 +43,7 @@
                 <div class="sidebar-brand-icon-modern">
                     <img alt="Logo" src="{{ asset('adminProfile/laravel.png') }}">
                 </div>
-                <span class="sidebar-brand-text-modern">POS</span>
+                <span class="sidebar-brand-text-modern">{{ config('app.name', 'Winniema\'s Enterprise') }}</span>
             </a>
             
             <!-- Sidebar Navigation -->

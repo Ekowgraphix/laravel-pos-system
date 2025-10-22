@@ -192,4 +192,39 @@ class PaymentController extends Controller
         // Handle failed transfers
         Log::warning('Transfer failed', $data);
     }
+
+    /**
+     * Handle cash payment
+     */
+    public function cashPayment(Order $order)
+    {
+        // Ensure order belongs to authenticated user
+        if ($order->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to order');
+        }
+
+        // Check if order is already paid
+        if ($order->payment_status === 'completed') {
+            return redirect()->route('customerOrders', $order->order_code)
+                ->with('info', 'This order has already been paid.');
+        }
+
+        // Update order status for cash payment
+        DB::transaction(function () use ($order) {
+            $order->update([
+                'status' => 1, // 0=Pending, 1=Success, 2=Reject
+                'payment_status' => 'completed',
+                'paid_at' => now(),
+                'payment_method' => 'Cash',
+            ]);
+
+            // Generate invoice
+            $this->invoiceGenerator->generate($order);
+        });
+
+        // Redirect to order details with success message and auto-print flag
+        return redirect()->route('customerOrders', $order->order_code)
+            ->with('success', '💵 Cash Payment Recorded! Your receipt is ready to print.')
+            ->with('auto_print', true); // Flag to trigger auto-print
+    }
 }

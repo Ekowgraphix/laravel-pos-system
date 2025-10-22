@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = ['product_id','user_id','status','reject_reason','order_code','count','totalPrice','payment_reference','payment_status','payment_error','paid_at'];
+    protected $fillable = ['product_id','user_id','status','reject_reason','order_code','count','totalPrice','payment_reference','payment_status','payment_method','payment_error','paid_at'];
 
     /**
      * Get the product associated with the order

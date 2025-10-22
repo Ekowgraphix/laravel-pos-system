@@ -3,10 +3,26 @@
 
 <head>
     <meta charset="utf-8">
-    <title>JOIN CODER</title>
+    <title>{{ config('app.name', 'Winniema\'s Enterprise') }}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/icons/icon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/icons/icon-72x72.png') }}">
+    <link rel="shortcut icon" href="{{ asset('images/icons/icon-96x96.png') }}">
+    
+    <!-- PWA Configuration -->
+    <meta name="theme-color" content="#0d6efd">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="{{ config('app.name', 'Winniema\'s Enterprise') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/icons/icon-192x192.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/icons/icon-192x192.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('images/icons/icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('images/icons/icon-144x144.png') }}">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -502,7 +518,7 @@
                 <div class="d-flex align-items-center justify-content-between py-3">
                     <!-- Logo -->
                     <a href="{{route('userDashboard')}}" class="navbar-brand-pro">
-                        <i class="fas fa-shopping-bag me-2"></i>Modern POS
+                        <i class="fas fa-shopping-bag me-2"></i>{{ config('app.name', 'Winniema\'s Enterprise') }}
                     </a>
                     
                     <!-- Mobile Toggle -->
@@ -1057,6 +1073,21 @@
         });
     </script>
     @endif
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
     
     </body>
 

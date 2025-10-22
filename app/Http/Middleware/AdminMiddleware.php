@@ -29,7 +29,7 @@ class AdminMiddleware
                 return $next($request);
             }
             // abort(404);
-            return back();
+            return redirect()->route('userDashboard'); // Fixed: redirect to user dashboard
         }
             return $next($request);
     }

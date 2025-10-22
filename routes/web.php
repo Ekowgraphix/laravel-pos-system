@@ -26,13 +26,18 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::redirect('/','auth/login');
+Route::get('/', function () {
+    if (auth()->check()) {
+        if (auth()->user()->role == 'admin' || auth()->user()->role == 'superadmin') {
+            return redirect()->route('adminDashboard');
+        }
+        return redirect()->route('userDashboard');
+    }
+    return redirect()->route('userLogin');
+});
 
-Route::middleware('admin')->group(function(){
 Route::get('auth/register',[AuthController::class,'registerPage'])->name('userRegister');
 Route::get('auth/login',[AuthController::class,'loginPage'])->name('userLogin');
-
-});
 
 //login for google and github
 Route::get('/auth/{provider}/redirect', [ProviderController::class,'redirect']);
@@ -47,6 +52,7 @@ use App\Http\Controllers\PaymentController;
 // Payment routes
 Route::prefix('payment')->middleware('auth')->group(function() {
     Route::get('/checkout/{order}', [PaymentController::class, 'checkout'])->name('payment.checkout');
+    Route::post('/cash/{order}', [PaymentController::class, 'cashPayment'])->name('payment.cash');
     Route::get('/callback', [PaymentController::class, 'callback'])->name('paystack.callback');
     Route::post('/webhook', [PaymentController::class, 'webhook'])->name('paystack.webhook');
 });

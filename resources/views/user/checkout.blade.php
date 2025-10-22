@@ -355,12 +355,22 @@
                     </div>
                     
                     <!-- Action Buttons -->
-                    <div class="d-grid">
+                    <div class="d-grid gap-3">
+                        <!-- Online Payment (Paystack) -->
                         <form action="{{ route('payment.checkout', $order) }}" method="GET">
                             <button type="submit" class="btn-checkout">
-                                <i class="fas fa-lock me-2"></i>Proceed to Secure Payment
+                                <i class="fas fa-credit-card me-2"></i>Pay Online (Card/Mobile Money)
                             </button>
                         </form>
+                        
+                        <!-- Cash Payment -->
+                        <form action="{{ route('payment.cash', $order) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-success btn-lg w-100" style="border-radius: 50px; font-weight: 700; padding: 18px;">
+                                <i class="fas fa-money-bill-wave me-2"></i>Pay with Cash
+                            </button>
+                        </form>
+                        
                         <a href="{{ route('orderList') }}" class="btn-cancel">
                             <i class="fas fa-arrow-left me-2"></i>Return to Orders
                         </a>
@@ -372,19 +382,25 @@
             <div class="payment-methods">
                 <h5>Accepted Payment Methods</h5>
                 <div class="row g-4">
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="payment-method-item">
+                            <i class="fas fa-money-bill-wave" style="color: #28a745;"></i>
+                            <p>Cash</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
                         <div class="payment-method-item">
                             <i class="fab fa-cc-visa" style="color: #1A1F71;"></i>
                             <p>Visa & Mastercard</p>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-3 col-sm-6">
                         <div class="payment-method-item">
                             <i class="fas fa-university" style="color: #28a745;"></i>
                             <p>Bank Transfer</p>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-3 col-sm-6">
                         <div class="payment-method-item">
                             <i class="fas fa-mobile-alt" style="color: #17a2b8;"></i>
                             <p>Mobile Money</p>

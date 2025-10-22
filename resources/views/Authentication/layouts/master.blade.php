@@ -9,7 +9,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>POS Admin</title>
+    <title>{{ config('app.name', 'Winniema\'s Enterprise') }}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/icons/icon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/icons/icon-72x72.png') }}">
+    <link rel="shortcut icon" href="{{ asset('images/icons/icon-96x96.png') }}">
 
     <!-- Custom fonts for this template-->
     <link href="{{asset ('admin/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">

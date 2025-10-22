@@ -561,3 +561,15 @@
 </div>
 
 @endsection
+
+@if(session('auto_print'))
+<script>
+    // Auto-print receipt after cash payment
+    window.addEventListener('load', function() {
+        // Small delay to ensure page is fully loaded
+        setTimeout(function() {
+            window.print();
+        }, 500);
+    });
+</script>
+@endif
